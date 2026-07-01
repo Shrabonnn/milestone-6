@@ -116,19 +116,108 @@ its layout. The point of using Lorem Ipsum is that it has a.</p>
             class="rounded-xl w-full h-48 object-cover" />
     </figure>
 
-    <div class="card-body p-4 pt-2 gap-1 text-sm">
+    <div class="card-body p-4 pt-2 gap-1 text-sm ">
         <h2 class="card-title text-lg">${item.pet_name}</h2>
         <p>Breed: ${item.breed}</p>
         <p>Birth: ${item.date_of_birth}</p>
         <p>Gender: ${item.gender}</p>
         <p>Price: ${item.price}</p>
     </div>
+    <div class="px-4">
+        <div class="border-b border-gray-300"></div>
+    </div>
+    <div class="px-4 py-2" gap-2 >
+        <div class="flex justify-between"> 
+            <button class="btn" onclick="loadLikesPet(${item.petId})">
+                <i class="fa-regular fa-thumbs-up"></i>
+            </button>
+            <button class="btn">Adopt</button>
+            <button class="btn" onclick="loadDetails(${item.petId})">Details</button>
+        </div>
+    </div>
+    
+    
 `;
        petSection.appendChild(petCard);
 
     })
 }
 
+
+const petDataObject ={
+    "petId": 2,
+    "breed": "Siamese",
+    "category": "Cat",
+    "date_of_birth": "2022-09-05",
+    "price": 800,
+    "image": "https://i.ibb.co.com/3Wzz41D/pet-2.jpg",
+    "gender": "Female",
+    "pet_details": "This affectionate female Siamese cat is known for her vocal nature and love for attention. Born on September 5, 2022, she enjoys interactive play and snuggles. Fully vaccinated and priced at $800, she's the perfect fit for cat lovers who appreciate an intelligent, engaging, and sociable feline companion.",
+    "vaccinated_status": "Fully",
+    "pet_name": "Mia"
+}
+const loadDetails = async (vid) => {
+
+    try {
+        const res = await fetch(`https://openapi.programming-hero.com/api/peddy/pet/${vid}`);
+        const data = await res.json();
+        console.log(data.petData)
+        displayDetails(data.petData);
+    } catch (error) {
+        console.log(error)
+
+    }
+}
+
+const displayDetails=(petData)=>{
+
+    const detailContainer = document.getElementById('modal-content')
+
+        detailContainer.innerHTML = `
+        <div class="space-y-4">
+
+            <!-- Image -->
+            <img src="${petData.image}"
+                class="w-full h-72 object-cover rounded-xl"
+                alt="${petData.pet_name}">
+
+            <!-- Pet Name -->
+            <h2 class="text-3xl font-bold">${petData.pet_name}</h2>
+
+            <!-- Info -->
+            <div class="grid grid-cols-2 gap-y-3 text-gray-600">
+
+                <p>Breed: ${petData.breed || "Not Available"}</p>
+                <p>Birth: ${petData.date_of_birth || "Not Available"}</p>
+
+                <p>Gender: ${petData.gender || "Not Available"}</p>
+                <p>Price: ${petData.price ? "$" + petData.price : "Not Available"}</p>
+
+                <p>Vaccinated: ${petData.vaccinated_status || "Not Available"}</p>
+
+            </div>
+
+            <hr>
+
+            <!-- Details -->
+            <div>
+                <h3 class="font-bold text-lg mb-2">
+                    Details Information
+                </h3>
+
+                <p class="text-gray-600 leading-7">
+                    ${petData.pet_details || "No details available."}
+                </p>
+            </div>
+
+        </div>
+    `;
+    //way1 
+    //document.getElementById('showModalData').click();
+
+    //way2 
+    document.getElementById('customModal').showModal();
+}
 
 const displayCategory = (pets) =>{
 
@@ -149,7 +238,35 @@ const displayCategory = (pets) =>{
 
     })
 }
+const loadLikesPet = async (vid) => {
 
+    try {
+        const res = await fetch(`https://openapi.programming-hero.com/api/peddy/pet/${vid}`);
+        const data = await res.json();
+        console.log(data.petData)
+        displayLikedPetDetails(data.petData);
+    } catch (error) {
+        console.log(error)
+
+    }
+}
+const displayLikedPetDetails=(petData)=>{
+    const likeContainer = document.getElementById('liked-pets');
+    
+        const likedPet = document.createElement('div');
+        // likedPet.classList = "p-2";
+
+         likedPet.innerHTML = `
+        <img
+            src="${petData.image}"
+            alt="${petData.pet_name}"
+            class="w-full aspect-square object-cover rounded-lg">
+    `;
+
+    likeContainer.appendChild(likedPet);
+    
+
+}
 
 loadCategory();
 loadAllPets()

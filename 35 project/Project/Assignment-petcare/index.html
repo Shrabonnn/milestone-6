@@ -78,11 +78,54 @@
         </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-4 py-4">
+    <!-- <section class="max-w-7xl mx-auto px-4 py-4">
         <div id="show-pet-section" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
 
         </div>
+    </section> -->
+    <section class="max-w-7xl mx-auto px-4 py-4">
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+            
+            <div id="show-pet-section" class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+
+            </div>
+
+            
+            <div id="liked-pets" class="border border-gray-300 rounded-xl min-h-[500px] p-2 grid grid-cols-2 gap-2  content-start">
+
+                
+
+            </div>
+
+        </div>
+
     </section>
+
+
+
+
+
+
+
+
+    <!-- Open the modal using ID.showModal() method -->
+    <button id="showModalData" class="btn hidden" onclick="customModal.showModal()">open modal</button>
+    <dialog id="customModal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+            <div id="modal-content">
+
+            </div>
+            <div class="modal-action flex w-full ">
+                <form method="dialog" class="w-full">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
     <script src="js/pet.js"></script>
 </body>
 
